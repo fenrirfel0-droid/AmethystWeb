@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMETHYST - Ultra Premium Multilingual Canvas Console</title>
+    <title>AMETHYST - Basic Education Curriculum Matrix</title>
     <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -32,7 +32,15 @@
             border-radius: 16px; padding: 25px; margin-bottom: 24px; 
             box-shadow: var(--glow-style); position: relative;
         }
+        .section-sub-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
         h2 { color: #fff; font-size: 14px; letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        h3 { color: var(--crystal-accent); font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;}
         
         /* Input Fields */
         .search-bar, .simple-input, .custom-select { 
@@ -52,7 +60,7 @@
         .widget-text-area { width: 100%; height: 90px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; color: #fff; font-size: var(--global-text-size); outline: none; resize: none; line-height: 1.5; }
 
         /* Action Buttons */
-        .luxury-action-btn { background: linear-gradient(135deg, var(--crystal-primary), #52189c); color: #fff; border: none; padding: 12px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; border-radius: 8px; cursor: pointer; letter-spacing: 0.5px; }
+        .luxury-action-btn { background: linear-gradient(135deg, var(--crystal-primary), #52189c); color: #fff; border: none; padding: 12px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; border-radius: 8px; cursor: pointer; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px;}
         .luxury-action-btn:hover { filter: brightness(1.15); box-shadow: var(--glow-style); }
         
         /* Views & Filtering rules */
@@ -63,6 +71,10 @@
         /* Theme Preset Grid */
         .preset-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 16px; }
         .preset-btn { border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 11px; font-weight: bold; text-align: center; cursor: pointer; text-transform: uppercase; }
+
+        /* Addon Marketplace Grid */
+        .addon-market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 10px; }
+        .addon-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; }
 
         /* Drawer Overlay */
         #demonology-secret-menu { position: fixed; top: 0; bottom: 0; right: 0; width: 100%; max-width: 340px; background: #0c081f; border-left: 2px solid #00ffcc; z-index: 5000; padding: 25px; overflow-y: auto; display: none; box-shadow: -10px 0 30px rgba(0,0,0,0.6); }
@@ -96,12 +108,14 @@
     <div class="workspace-navbar" id="dynamic-navbar-container">
         <div style="font-size:16px; color:#fff; font-weight:900; margin-right:auto; letter-spacing:1px;" id="brand-logo-output">AMETHYST CORE</div>
         <button class="nav-link-btn active-tab" id="tab-btn-home" onclick="switchActiveViewTab('view-home', this)">📁 <span id="nav-lbl-home">Notes Binder</span></button>
-        <button class="nav-link-btn" id="tab-btn-themes" onclick="switchActiveViewTab('view-themes-panel', this)">⚙️ <span id="nav-lbl-themes">Elite Settings</span></button>
+        <button class="nav-link-btn" id="tab-btn-themes" onclick="switchActiveViewTab('view-themes-panel', this)">🔧 <span>Elite Settings</span></button>
         <button class="nav-link-btn" id="tab-btn-directory" onclick="switchActiveViewTab('view-directory', this)">👥 <span id="nav-lbl-roster">Member Roster</span></button>
         <button class="nav-link-btn" id="tab-btn-extensions" style="border-color:#ca9ffb; color:#ca9ffb;" onclick="switchActiveViewTab('view-extensions', this)">➕ <span id="nav-lbl-add">Add Page</span></button>
     </div>
 
     <div id="view-home" class="tab-content-panel active-view">
+        <div id="global-addon-station-mount"></div>
+
         <div class="panel-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                 <h2 id="lbl-storage-title">Amethyst Operational Storage Locker</h2>
@@ -125,54 +139,61 @@
     </div>
 
     <div id="view-themes-panel" class="tab-content-panel">
+        
         <div class="panel-card">
             <h2 id="lbl-theme-panel-title">🔧 Ultimate Theme Engine Matrix Customizer</h2>
             
-            <div style="background: rgba(255,255,255,0.04); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                <span style="font-weight: bold; font-size: 12px;"><span id="lbl-mid-lang-title">🌍 Hot-Swap Runtime Language / Baguhin ang Wika:</span></span>
+            <div style="background: linear-gradient(90deg, rgba(138,43,226,0.15), rgba(0,0,0,0.4)); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <span style="font-weight: bold; font-size: 12px; display:flex; align-items:center; gap:6px;"><span id="lbl-mid-lang-title">🌍 Hot-Swap Runtime Language / Baguhin ang Wika:</span></span>
                 <select id="panel-language-selector" class="custom-select" style="width: auto; margin-bottom: 0; padding: 8px 16px;" onchange="document.getElementById('gate-language-selector').value = this.value; applyLanguagePackMatrix(this.value)">
                     <option value="en">English (Default)</option>
                     <option value="fil">Filipino (Tagalog)</option>
                 </select>
             </div>
 
-            <p id="lbl-theme-sec1" style="font-size:11px; font-weight:bold; color:var(--crystal-accent); margin-bottom:6px;">1. ULTRA-PREMIUM ELITE ENGINE CORE PRESETS</p>
-            <div class="preset-grid">
-                <div class="preset-btn" style="background:#0a0618; border-color:#8a2be2;" onclick="loadPremiumPreset('#0a0618','rgba(24,18,54,0.6)','#000000','#8a2be2','#b19ffb')">Amethyst Cyber</div>
-                <div class="preset-btn" style="background:#020205; border-color:#ffffff;" onclick="loadPremiumPreset('#020205','rgba(15,15,20,0.7)','#09090d','#ffffff','#999999')">Midnight Void</div>
-                <div class="preset-btn" style="background:#040e0a; border-color:#00ff88;" onclick="loadPremiumPreset('#040e0a','rgba(6,24,16,0.65)','#020805','#00ff88','#a3ffd6')">Emerald Terminal</div>
-                <div class="preset-btn" style="background:#0f0404; border-color:#ff1144;" onclick="loadPremiumPreset('#0f0404','rgba(31,8,8,0.65)','#070101','#ff1144','#ff99aa')">Crimson Rage</div>
-            </div>
-
-            <p id="lbl-theme-sec2" style="font-size:11px; font-weight:bold; color:var(--crystal-accent); margin-bottom:6px; margin-top:16px;">2. GRANULAR STYLE SHEET TUNERS</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 16px;">
-                <div><label id="lbl-col-bg" style="font-size:11px; display:block; margin-bottom:4px;">Core Canvas Background</label><input type="color" id="picker-bg" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--bg-base', this.value)"></div>
-                <div><label id="lbl-col-card" style="font-size:11px; display:block; margin-bottom:4px;">Panel Card Tint</label><input type="color" id="picker-card" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="updateCardColorTransparency(this.value)"></div>
-                <div><label id="lbl-col-input" style="font-size:11px; display:block; margin-bottom:4px;">Input Base Fill</label><input type="color" id="picker-input" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--input-bg', this.value)"></div>
-                <div><label id="lbl-col-primary" style="font-size:11px; display:block; margin-bottom:4px;">Primary Core Hue</label><input type="color" id="picker-primary" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--crystal-primary', this.value)"></div>
-            </div>
-
-            <p id="lbl-theme-sec3" style="font-size:11px; font-weight:bold; color:var(--crystal-accent); margin-bottom:6px; margin-top:12px;">3. STRUCTURAL CONTRAST & TYPOGRAPHY ADJUSTMENTS</p>
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin-bottom:15px;">
-                <div>
-                    <label id="lbl-typo" style="font-size:11px;">Workspace Typeface Grid</label>
-                    <select class="custom-select" style="margin-top:4px;" onchange="document.documentElement.style.setProperty('--current-font', this.value)">
-                        <option value="'Space Grotesk', sans-serif">Modern Clean Sans</option>
-                        <option value="'JetBrains Mono', monospace">Tactical Monospace</option>
-                        <option value="'Finger Paint', cursive">Playful Brush Script</option>
-                    </select>
-                </div>
-                <div>
-                    <label id="lbl-pad" style="font-size:11px;">Interface Edge Padding</label>
-                    <input type="range" min="10" max="45" value="24" style="width:100%; margin-top:14px; cursor:pointer;" oninput="document.documentElement.style.setProperty('--global-padding', this.value + 'px')">
-                </div>
-                <div>
-                    <label id="lbl-text-size-slider" style="font-size:11px;">Global Engine Text Zoom Scale</label>
-                    <input type="range" min="11" max="18" value="13" style="width:100%; margin-top:14px; cursor:pointer;" oninput="document.documentElement.style.setProperty('--global-text-size', this.value + 'px')">
+            <div class="section-sub-card">
+                <h3 id="lbl-theme-sec1">🎨 1. Premium Core Presets</h3>
+                <div class="preset-grid">
+                    <div class="preset-btn" style="background:#0a0618; border-color:#8a2be2;" onclick="loadPremiumPreset('#0a0618','rgba(24,18,54,0.6)','#000000','#8a2be2','#b19ffb')">Amethyst Cyber</div>
+                    <div class="preset-btn" style="background:#020205; border-color:#ffffff;" onclick="loadPremiumPreset('#020205','rgba(15,15,20,0.7)','#09090d','#ffffff','#999999')">Midnight Void</div>
+                    <div class="preset-btn" style="background:#040e0a; border-color:#00ff88;" onclick="loadPremiumPreset('#040e0a','rgba(6,24,16,0.65)','#020805','#00ff88','#a3ffd6')">Emerald Terminal</div>
+                    <div class="preset-btn" style="background:#0f0404; border-color:#ff1144;" onclick="loadPremiumPreset('#0f0404','rgba(31,8,8,0.65)','#070101','#ff1144','#ff99aa')">Crimson Rage</div>
                 </div>
             </div>
 
-            <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); display:flex; flex-direction:column; gap:8px; margin-bottom: 20px;">
+            <div class="section-sub-card">
+                <h3 id="lbl-theme-sec2">🎨 2. Granular Color Sheet Tuners</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                    <div><label id="lbl-col-bg" style="font-size:11px; display:block; margin-bottom:4px;">Core Background</label><input type="color" id="picker-bg" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--bg-base', this.value)"></div>
+                    <div><label id="lbl-col-card" style="font-size:11px; display:block; margin-bottom:4px;">Panel Card Tint</label><input type="color" id="picker-card" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="updateCardColorTransparency(this.value)"></div>
+                    <div><label id="lbl-col-input" style="font-size:11px; display:block; margin-bottom:4px;">Input Base Fill</label><input type="color" id="picker-input" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--input-bg', this.value)"></div>
+                    <div><label id="lbl-col-primary" style="font-size:11px; display:block; margin-bottom:4px;">Primary Core Hue</label><input type="color" id="picker-primary" style="width:100%; height:34px; background:none; border:1px solid rgba(255,255,255,0.1); cursor:pointer;" oninput="document.documentElement.style.setProperty('--crystal-primary', this.value)"></div>
+                </div>
+            </div>
+
+            <div class="section-sub-card">
+                <h3 id="lbl-theme-sec3">📏 3. Typography & Interface Scale Layout</h3>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+                    <div>
+                        <label id="lbl-typo" style="font-size:11px; display:block; margin-bottom:4px;">Workspace Typeface Grid</label>
+                        <select class="custom-select" onchange="document.documentElement.style.setProperty('--current-font', this.value)">
+                            <option value="'Space Grotesk', sans-serif">Modern Clean Sans</option>
+                            <option value="'JetBrains Mono', monospace">Tactical Monospace</option>
+                            <option value="'Finger Paint', cursive">Playful Brush Script</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label id="lbl-pad" style="font-size:11px; display:block; margin-bottom:4px;">Interface Edge Padding</label>
+                        <input type="range" min="10" max="45" value="24" style="width:100%; margin-top:10px; cursor:pointer;" oninput="document.documentElement.style.setProperty('--global-padding', this.value + 'px')">
+                    </div>
+                    <div>
+                        <label id="lbl-text-size-slider" style="font-size:11px; display:block; margin-bottom:4px;">Global Engine Text Scale</label>
+                        <input type="range" min="11" max="18" value="13" style="width:100%; margin-top:10px; cursor:pointer;" oninput="document.documentElement.style.setProperty('--global-text-size', this.value + 'px')">
+                    </div>
+                </div>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.05); display:flex; flex-direction:column; gap:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span id="lbl-opt-glass" style="font-size:11px; font-weight:bold;">✨ GLASSMORPHISM FROSTED BACKDROP FILTER BLUR</span>
                     <input type="checkbox" checked style="transform:scale(1.2); cursor:pointer;" onchange="document.documentElement.style.setProperty('--glass-blur', this.checked ? 'blur(12px)' : 'none')">
@@ -189,6 +210,36 @@
                 <input type="password" id="theme-panel-pass-input" class="search-bar" style="border-color: rgba(0, 255, 204, 0.4);" placeholder="Type passphrase credential token to unlock configurations..." oninput="evaluateAdminPasswordRoute(this.value)">
             </div>
         </div>
+
+        <div class="panel-card" style="border-color: var(--crystal-accent);">
+            <h2>🔌 Built-In Premium Addon Marketplace</h2>
+            <p style="font-size: 11px; color:#aaa; margin-bottom:12px;">Instantly inject advanced sub-modules into your curriculum console ecosystem without manual code injection layouts.</p>
+            
+            <div class="addon-market-grid">
+                <div class="addon-card">
+                    <div>
+                        <strong style="color:#fff; font-size:13px;">⏱️ Curriculum Class Session Timer</strong>
+                        <p style="font-size:11px; color:#888; margin-top:4px;">Adds an operational countdown clock widget at the top of your binder view to accurately manage lesson pacing milestones.</p>
+                    </div>
+                    <button class="luxury-action-btn" id="btn-addon-timer" style="margin-top:12px; width:100%; background:#227744;" onclick="toggleAddonInstallation('timer')">Install Addon Module</button>
+                </div>
+                <div class="addon-card">
+                    <div>
+                        <strong style="color:#fff; font-size:13px;">📊 K-12 Grade Weight Analyzer</strong>
+                        <p style="font-size:11px; color:#888; margin-top:4px;">A quick calculation tool built for teachers to instantly calculate raw student scorecard points into final DepEd percentage weights.</p>
+                    </div>
+                    <button class="luxury-action-btn" id="btn-addon-grades" style="margin-top:12px; width:100%; background:#227744;" onclick="toggleAddonInstallation('grades')">Install Addon Module</button>
+                </div>
+                <div class="addon-card">
+                    <div>
+                        <strong style="color:#fff; font-size:13px;">📑 Student Core SF9 Profile Builder</strong>
+                        <p style="font-size:11px; color:#888; margin-top:4px;">Generates a dynamic data-entry scheme template to track individual student general descriptors, actions, and progress flags.</p>
+                    </div>
+                    <button class="luxury-action-btn" id="btn-addon-sf9" style="margin-top:12px; width:100%; background:#227744;" onclick="toggleAddonInstallation('sf9')">Install Addon Module</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="view-directory" class="tab-content-panel">
@@ -209,8 +260,8 @@
             <label id="lbl-inp-template-tag" style="font-size:11px; font-weight:bold; color:var(--crystal-accent); display:block; margin-bottom:4px; margin-top:6px;">Select Layout Blueprint Template</label>
             <select id="new-page-template-select" class="custom-select">
                 <option value="blank">📄 Standard Blank Note Sheet (Clean Canvas)</option>
-                <option value="science">🧪 Science Lab Worksheet Blueprint (Observations & Tables)</option>
-                <option value="geography">🗺️ Geography Log Tracker Template (Terrain & Fact Checkpoints)</option>
+                <option value="matatag">🏫 MATATAG K-10 Curriculum Framework Block</option>
+                <option value="shs">🎓 Senior High School Core Subject Outline</option>
             </select>
 
             <button id="btn-deploy-page" class="luxury-action-btn" style="background:#00ffcc; color:#000; width:100%; margin-top:8px;" onclick="createNewWorkspaceViewPage()">OK (Deploy Custom Templated Notebook Tab)</button>
@@ -256,13 +307,15 @@
     <div id="activity-feed"></div>
 
     <script>
-        // Data Store
         let virtualDriveStorage = [];
         let networkOperatorRegistry = [];
         let dynamicPageCount = 0;
         let activeSystemLanguageToken = "en";
+        
+        // Addon States Tracking
+        let installedAddonsRegistry = { timer: false, grades: false, sf9: false };
+        let countdownTimerIntervalInstance = null;
 
-        // Global Multilingual Dictionaries Localization Resource Block
         const translationLanguageMatrixPack = {
             en: {
                 subtitle: "Premium Custom Matrix Binder Deck",
@@ -271,10 +324,10 @@
                 statCount: "TOTAL ENROLLED ASSETS: ", statWeight: "WEIGHT QUANTUM: ", searchPlaceholder: "🔍 Search written file token titles...",
                 emptyDrive: "Operational file locker empty.", themeTitle: "🔧 Ultimate Theme Engine Matrix Customizer",
                 midLangTitle: "🌍 Hot-Swap Runtime Language / Baguhin ang Wika:",
-                themeSec1: "1. ULTRA-PREMIUM ELITE ENGINE CORE PRESETS", themeSec2: "2. GRANULAR STYLE SHEET TUNERS",
-                themeSec3: "3. STRUCTURAL CONTRAST & TYPOGRAPHY ADJUSTMENTS", bgCol: "Core Canvas Background", cardCol: "Panel Card Tint",
+                themeSec1: "🎨 1. Premium Core Presets", themeSec2: "🎨 2. Granular Color Sheet Tuners",
+                themeSec3: "📏 3. Typography & Interface Scale Layout", bgCol: "Core Canvas Background", cardCol: "Panel Card Tint",
                 inputCol: "Input Base Fill", primaryCol: "Primary Core Hue", typoLbl: "Workspace Typeface Grid", padLbl: "Interface Edge Padding",
-                textSizeLbl: "Global Engine Text Zoom Scale",
+                textSizeLbl: "Global Engine Text Scale",
                 optGlass: "✨ GLASSMORPHISM FROSTED BACKDROP FILTER BLUR", optGlow: "🌌 HIGH-GLOW HIGH CONTRAST NEON REFLEX DROP SHADOWS",
                 rosterTitle: "👥 Connected Active Session Roster", creatorTitle: "➕ Infinite Custom Notebook Dispatcher Hub",
                 creatorSubtitle: "Deploy separate, code-free custom notation tabs instantly using elite core functional templates.",
@@ -295,8 +348,8 @@
                 statCount: "KABUUANG NAIPONG DOKUMENTO: ", statWeight: "TIMBANG NG DATOS: ", searchPlaceholder: "🔍 Maghanap ng pamagat ng tala...",
                 emptyDrive: "Walang laman ang iyong taguan ng mga dokumento.", themeTitle: "🔧 Pangunahing Matrix na Tagapamahala ng Tema",
                 midLangTitle: "🌍 Hot-Swap Runtime Language / Baguhin ang Wika:",
-                themeSec1: "1. MGA PRESET NG ULTRA-PREMIUM ELITE ENGINE CORE", themeSec2: "2. MGA DETALYADONG ACCESS TUNER NG KULAY AT ESTILO",
-                themeSec3: "3. PAGSASAAYOS NG SULAT AT LAKI NG MGA ELEMENTO", bgCol: "Pangunahing Background ng Canvas", cardCol: "Kulay ng Panel Card",
+                themeSec1: "🎨 1. Mga Preset ng Ultra-Premium Elite Core", themeSec2: "🎨 2. Mga Detalyadong Access Tuner ng Kulay at Estilo",
+                themeSec3: "📏 3. Pagsasaayos ng Sulat at Laki ng mga Elemento", bgCol: "Pangunahing Background ng Canvas", cardCol: "Kulay ng Panel Card",
                 inputCol: "Kulay ng Loob ng Kahon ng Input", primaryCol: "Pangunahing Neon Hue", typoLbl: "Estilo ng Letra sa Workspace", padLbl: "Laki ng Gilid at Pagitan",
                 textSizeLbl: "Sukat at Zoom ng Teksto sa Sistema",
                 optGlass: "✨ GLASSMORPHISM MALABONG EPEKTO NG BACKGROUND (BLUR)", optGlow: "🌌 NEON REFLEX DROP SHADOWS NA MATAAS ANG KINANG",
@@ -310,23 +363,20 @@
                 toastUploadSuccess: "📂 Ang lokal na dokumento ay naidagdag na sa imbakan ng datos", toastClearance: "🔄 Nabago ang antas ng kapangyarihan at pahintulot ng account.",
                 toastPurge: "🚨 MATAGUMPAY NA PINURGE AT KINANSELA ANG LAHAT NG DATOS", rankStr: "ANTAS NG PAHINTULOT NG ACCOUNT SA MATRIX: ",
                 eraseNoteBtn: "✕ Burahin ang Tala", remodTitleBtn: "Baguhin Titulo", wipePageBtn: "🗑️ Puksain ang Buong Pahina", appendRowBtn: "➕ Magdagdag ng Hanay ng Checkpoint",
-                lblBlockBanner: "🎫 LAYOUT NG BANNER AT PAMAGAT NG DOKUMENTO", lblBlockDoc: "📝 MALAYANG KAHON NG PAGSUSULAT NG TALA", lblBlockCheck: "✅ LISTAHAN NG MGA LAYUNIN AT CHECKBOX", appendTaskLineBtn: "➕ Magdagdag ng Linya ng Gawain", dropBlockBtn: "✕ Alisin ang Block"
+                lblBlockBanner: "LAYOUT NG BANNER AT PAMAGAT NG DOKUMENTO", lblBlockDoc: "📝 MULTI-LINE INDEPENDENT DOCUMENTATION NOTE CARD", lblBlockCheck: "✅ LISTAHAN NG MGA LAYUNIN AT CHECKBOX", appendTaskLineBtn: "➕ Magdagdag ng Linya ng Gawain", dropBlockBtn: "✕ Alisin ang Block"
             }
         };
 
-        /* LOCALIZATION RUNTIME REWRITER PACK ENGINE */
         function applyLanguagePackMatrix(langCode) {
             activeSystemLanguageToken = langCode;
             const dict = translationLanguageMatrixPack[langCode];
 
-            // Map UI text channels
             document.getElementById('gate-subtitle').innerText = dict.subtitle;
             document.getElementById('auth-username-input').placeholder = dict.usernamePlaceholder;
             document.getElementById('gate-connect-btn').innerText = dict.gateConnectBtn;
             
             document.getElementById('nav-lbl-home').innerText = dict.navHome;
-            document.getElementById('nav-lbl-themes').innerText = dict.navThemes;
-            document.getElementById('nav-lbl-roster').innerText = dict.navRoster;
+            document.getElementById('nav-lbl-directory').innerText = dict.navRoster;
             document.getElementById('nav-lbl-add').innerText = dict.navAdd;
 
             document.getElementById('lbl-storage-title').innerText = dict.storageTitle;
@@ -356,9 +406,7 @@
             document.getElementById('lbl-inp-template-tag').innerText = dict.lblInpTemp;
             document.getElementById('lbl-admin-entry-route').innerText = dict.adminRoute;
 
-            // Sync selectors dropdown positions
-            document.getElementById('panel-language-selector').value = langCode;
-
+            document.getElementById('gate-language-selector').value = langCode;
             updateAnalyticsAndRender();
         }
 
@@ -371,7 +419,6 @@
             if(navigationButtonRef) navigationButtonRef.classList.add('active-tab');
         }
 
-        /* THEME MATRIX ENGINE UTILITIES */
         function loadPremiumPreset(bg, card, input, primary, accent) {
             document.documentElement.style.setProperty('--bg-base', bg);
             document.documentElement.style.setProperty('--purple-card', card);
@@ -395,7 +442,109 @@
             document.documentElement.style.setProperty('--glow-style', isChecked ? `0 0 16px ${primaryColor}59` : 'none');
         }
 
-        /* CUSTOM NOTEBOOK CREATION HUB WITH BLUEPRINTS TEMPLATES ENGINE */
+        /* DYNAMIC ADDON MANAGEMENT MOTOR */
+        function toggleAddonInstallation(addonKey) {
+            const btn = document.getElementById('btn-addon-' + addonKey);
+            
+            if (!installedAddonsRegistry[addonKey]) {
+                installedAddonsRegistry[addonKey] = true;
+                btn.innerText = "Uninstall Addon Module";
+                btn.style.background = "#cc1144";
+                pushSystemToast(`🔌 Successfully deployed ${addonKey.toUpperCase()} engine core addon component.`);
+                injectAddonWidgetUI(addonKey);
+            } else {
+                installedAddonsRegistry[addonKey] = false;
+                btn.innerText = "Install Addon Module";
+                btn.style.background = "#227744";
+                pushSystemToast(`🗑️ Removed ${addonKey.toUpperCase()} addon module.`);
+                removeAddonWidgetUI(addonKey);
+            }
+        }
+
+        function injectAddonWidgetUI(addonKey) {
+            const targetMount = document.getElementById('global-addon-station-mount');
+            const wrapper = document.createElement('div');
+            wrapper.id = "installed-addon-node-" + addonKey;
+            wrapper.className = "panel-card";
+            wrapper.style.borderColor = "var(--crystal-primary)";
+
+            if (addonKey === 'timer') {
+                wrapper.innerHTML = `
+                    <h3>⏱️ Curriculum Pacing Session Timer</h3>
+                    <div style="display:flex; gap:10px; align-items:center; margin-top:8px;">
+                        <input type="number" id="addon-timer-minutes" class="simple-input" style="width:100px; margin-bottom:0;" value="45" min="1">
+                        <span style="font-size:12px; font-weight:bold;">MINS</span>
+                        <button class="luxury-action-btn" onclick="executeStartCountdownTimer()">▶️ Start Countdown</button>
+                        <div id="countdown-timer-display" style="font-family:'JetBrains Mono'; font-size:18px; color:#00ffcc; font-weight:bold; margin-left:auto;">45:00</div>
+                    </div>`;
+            } 
+            else if (addonKey === 'grades') {
+                wrapper.innerHTML = `
+                    <h3>📊 K-12 Score-to-Weight Calculator</h3>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap:8px; margin-top:8px;">
+                        <div><label style="font-size:10px;">Raw Score</label><input type="number" id="g-raw" class="simple-input" style="margin-bottom:0;" value="40" oninput="calculateK12PercentageScore()"></div>
+                        <div><label style="font-size:10px;">Highest Possible</label><input type="number" id="g-total" class="simple-input" style="margin-bottom:0;" value="50" oninput="calculateK12PercentageScore()"></div>
+                        <div><label style="font-size:10px;">Component Weight %</label><input type="number" id="g-weight" class="simple-input" style="margin-bottom:0;" value="30" oninput="calculateK12PercentageScore()"></div>
+                        <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.4); border-radius:8px;">
+                            <span style="font-size:9px; color:#aaa;">WEIGHTED SCORE</span>
+                            <strong id="grade-calc-output-score" style="color:#00ffcc; font-size:14px;">24.00%</strong>
+                        </div>
+                    </div>`;
+            }
+            else if (addonKey === 'sf9') {
+                wrapper.innerHTML = `
+                    <h3>📑 DepEd SF9 / Form 137 Student Profiler</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
+                        <input type="text" class="simple-input" style="margin-bottom:0;" placeholder="Student Full Name (Apelyido, Pangalan)">
+                        <input type="text" class="simple-input" style="margin-bottom:0;" placeholder="LRN (Learner Reference Number)">
+                    </div>
+                    <textarea class="widget-text-area" style="margin-top:8px; height:50px;" placeholder="Remarks on Core Values / Observed Behavior Flags (e.g., Maka-Diyos, Makatao)..."></textarea>`;
+            }
+
+            targetMount.appendChild(wrapper);
+        }
+
+        function removeAddonWidgetUI(addonKey) {
+            const targetNode = document.getElementById("installed-addon-node-" + addonKey);
+            if(targetNode) {
+                if (addonKey === 'timer' && countdownTimerIntervalInstance) clearInterval(countdownTimerIntervalInstance);
+                targetNode.remove();
+            }
+        }
+
+        /* TIMER IMPLEMENTATION LOGIC */
+        function executeStartCountdownTimer() {
+            if(countdownTimerIntervalInstance) clearInterval(countdownTimerIntervalInstance);
+            let mins = parseInt(document.getElementById('addon-timer-minutes').value) || 45;
+            let totalSeconds = mins * 60;
+
+            const display = document.getElementById('countdown-timer-display');
+            countdownTimerIntervalInstance = setInterval(() => {
+                if(totalSeconds <= 0) {
+                    clearInterval(countdownTimerIntervalInstance);
+                    display.innerText = "TIME OUT";
+                    pushSystemToast("🔔 Lesson period pacing milestone time window reached!");
+                    return;
+                }
+                totalSeconds--;
+                let m = Math.floor(totalSeconds / 60);
+                let s = totalSeconds % 60;
+                display.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        /* K12 WEIGHTED GRADE CALCULATION */
+        function calculateK12PercentageScore() {
+            const raw = parseFloat(document.getElementById('g-raw').value) || 0;
+            const total = parseFloat(document.getElementById('g-total').value) || 1;
+            const weight = parseFloat(document.getElementById('g-weight').value) || 0;
+
+            let percentage = (raw / total) * 100;
+            let weighted = (percentage * (weight / 100));
+            document.getElementById('grade-calc-output-score').innerText = weighted.toFixed(2) + "%";
+        }
+
+        /* PAGE CREATION MATRIX */
         function createNewWorkspaceViewPage() {
             if (document.getElementById('admin-freeze-toggle').checked) { return; }
             const pageTitle = document.getElementById('new-page-title-input').value.trim();
@@ -441,33 +590,30 @@
             document.getElementById('dynamic-pages-wrapper-zone').appendChild(canvasView);
             document.getElementById('new-page-title-input').value = "";
             
-            // EXECUTE BLUEPRINT TEMPLATE STAMP MATRIX
             executeTemplateInjectionBlueprint(uniquePageId, chosenTemplate);
             
             pushSystemToast(`${dict.toastPageCreated}${pageTitle}`);
             switchActiveViewTab(uniquePageId, tabBtn);
         }
 
-        /* INSTANT PRESET LAYOUT STAMP BLUEPRINTS */
         function executeTemplateInjectionBlueprint(pageId, templateType) {
             if (templateType === 'blank') return;
 
             const notice = document.getElementById(`empty-notice-${pageId}`);
             if(notice) notice.remove();
 
-            if (templateType === 'science') {
-                injectComponentToCanvas(pageId, 'heading', "🔬 Science Experiment Laboratory Logsheet");
-                injectComponentToCanvas(pageId, 'text', "🔬 HYPOTHESIS & OBSERVATIONS:\n- Focus point:\n- Observed reactions:\n\n");
-                injectComponentToCanvas(pageId, 'todo', "🧪 LAB REAGENTS CHECKLIST / TASK PROGRESSION STATUS");
+            if (templateType === 'matatag') {
+                injectComponentToCanvas(pageId, 'heading', "🏫 MATATAG Lesson Exemplar & Competency Matrix");
+                injectComponentToCanvas(pageId, 'text', "🎯 LEARNING COMPETENCIES (Mga Kasanayan):\n- Key Theme / Paksa:\n- Cognitive Process Dimensions:\n\n📝 LESSON FLOW / PAMAMARAAN:\n1. Balik-Aral (Review)\n2. Paghahabi sa Layunin (Motivation)\n3. Pagtalakay (Discussion)\n\n");
+                injectComponentToCanvas(pageId, 'todo', "✅ FORMATIVE ASSESSMENT CHECKLIST (Pagtataya)");
             } 
-            else if (templateType === 'geography') {
-                injectComponentToCanvas(pageId, 'heading', "🗺️ Geography Terrain & Cartography Data Log");
-                injectComponentToCanvas(pageId, 'text', "🗺️ GEOGRAPHICAL PARAMETERS:\n- Target Territory Name:\n- Climate Profile:\n- Key Core Landmarks:\n\n");
-                injectComponentToCanvas(pageId, 'todo', "📍 EXPEDITION SURVEY FIELD MARKS CHECKPOINT");
+            else if (templateType === 'shs') {
+                injectComponentToCanvas(pageId, 'heading', "🎓 SHS Core Subject Syllabus & Performance Stand");
+                injectComponentToCanvas(pageId, 'text', "📚 SUBJECT METRICS:\n- Core Strand Component (STEM/ABM/HUMSS/GAS/TVL):\n- Content Standard:\n- Performance Standard:\n\n💡 REFLECTION / REHIYON NG PAGKATUTO:\n\n");
+                injectComponentToCanvas(pageId, 'todo', "📌 PERFORMANCE TASK CHECKPOINTS (Outputs)");
             }
         }
 
-        /* CARD COMPONENT HARDWARE INJECTOR CHANNELS */
         function injectComponentToCanvas(pageId, category, customPresetValueText = "") {
             if (document.getElementById('admin-freeze-toggle').checked) { return; }
             const notice = document.getElementById(`empty-notice-${pageId}`);
@@ -519,12 +665,11 @@
         function purgeDynamicCustomPage(viewPanelId, navigationTabButtonElementId) {
             document.getElementById(viewPanelId).remove();
             document.getElementById(navigationTabButtonElementId).remove();
-            pushSystemToast(activeSystemLanguageToken === 'en' ? "Destroyed notebook file context frame elements." : "Ganap na tinanggal ang pahina ng kuwaderno sa session grid.");
             switchActiveViewTab('view-home', document.getElementById('tab-btn-home'));
             updateLiveAdminMetrics();
         }
 
-        /* ACCESS AUTHORIZATION GATES */
+        /* ACCESS SECURITY VERIFICATION METHODS */
         function verifyGateLogin() {
             let nameInput = document.getElementById('auth-username-input').value.trim();
             if(!nameInput) { alert(activeSystemLanguageToken === "en" ? "Please input profile identifier string text name." : "Mangyaring maglagay ng pangalan."); return; }
@@ -540,19 +685,19 @@
         function evaluateAdminPasswordRoute(valueString) {
             if (valueString.toLowerCase().trim() === "amethyst") {
                 document.getElementById('demonology-secret-menu').style.display = 'block';
-                document.getElementById('theme-panel-pass-input').value = ""; // Clear input instantly
+                document.getElementById('theme-panel-pass-input').value = "";
                 pushSystemToast(translationLanguageMatrixPack[activeSystemLanguageToken].toastAdminGranted);
             }
         }
 
-        /* FILE SYSTEM DRIVERS */
+        /* REPOSITORY AND LOCKER MANAGEMENT PIPES */
         function executeFileSystemUpload(event) {
             const file = event.target.files[0]; if(!file) return;
             const rdr = new FileReader();
             rdr.onload = function(e) {
                 virtualDriveStorage.push({ 
                     name: file.name, size: (file.size / 1024).toFixed(2), 
-                    content: e.target.result || "Information logs parameter string block structural field blank." 
+                    content: e.target.result || "Blank data structural field." 
                 });
                 updateAnalyticsAndRender();
                 pushSystemToast(translationLanguageMatrixPack[activeSystemLanguageToken].toastUploadSuccess);
